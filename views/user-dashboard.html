@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Requests · Request Management System</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <div class="page-loader" id="page-loader"><div class="spinner"></div></div>
+
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-mark">RM</div>
+        <div>
+          <div class="brand-name">Request Mgmt</div>
+          <div class="brand-sub">User Dashboard</div>
+        </div>
+      </div>
+
+      <div class="nav-item active">
+        <span>📋</span> My Requests
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="user-chip">
+          <div class="user-avatar" id="user-avatar">U</div>
+          <div class="user-chip-info">
+            <div class="user-chip-name" id="user-name">-</div>
+            <div class="user-chip-role">User</div>
+          </div>
+        </div>
+        <div class="nav-item" onclick="logout()">
+          <span>↩</span> Log out
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main">
+      <div class="topbar">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button class="mobile-nav-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+          <div>
+            <h1>My Requests</h1>
+            <p class="page-desc">Create, track, and manage your requests.</p>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="width:auto;" onclick="openCreateModal()">
+          <span>+</span> New Request
+        </button>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-total">0</div>
+          <div class="stat-label">Total requests</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-pending">0</div>
+          <div class="stat-label">Pending</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-approved">0</div>
+          <div class="stat-label">Approved</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="stat-rejected">0</div>
+          <div class="stat-label">Rejected</div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <input type="search" id="search-input" placeholder="Search your requests..." />
+        <select id="filter-status">
+          <option value="">All statuses</option>
+          <option value="Pending">Pending</option>
+          <option value="Approved">Approved</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+        <div class="spacer"></div>
+      </div>
+
+      <div class="request-grid" id="request-grid">
+        <!-- Request cards injected here -->
+      </div>
+    </main>
+  </div>
+
+  <!-- Create / Edit modal -->
+  <div class="modal-overlay" id="request-modal">
+    <div class="modal-box">
+      <h2 id="modal-title">New Request</h2>
+      <p class="modal-sub">Requests start as Pending until an admin reviews them.</p>
+
+      <form id="request-form" novalidate>
+        <input type="hidden" id="request-id" />
+        <div class="field">
+          <label for="title">Title</label>
+          <input type="text" id="title" required maxlength="150" />
+          <div class="field-error" id="title-error"></div>
+        </div>
+        <div class="field">
+          <label for="category">Category</label>
+          <input type="text" id="category" placeholder="e.g. IT Support, Leave, Equipment" required />
+          <div class="field-error" id="category-error"></div>
+        </div>
+        <div class="field">
+          <label for="description">Description</label>
+          <textarea id="description" required></textarea>
+          <div class="field-error" id="description-error"></div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-ghost" onclick="closeRequestModal()">Cancel</button>
+          <button type="submit" class="btn btn-primary" id="request-submit-btn" style="width:auto;">
+            <span class="spinner"></span>
+            <span class="btn-label" id="request-submit-label">Create request</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete confirmation modal -->
+  <div class="modal-overlay" id="delete-modal">
+    <div class="modal-box">
+      <h2>Delete this request?</h2>
+      <p class="modal-sub">This can't be undone.</p>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-ghost" onclick="closeDeleteModal()">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirm-delete-btn" style="width:auto;">
+          <span class="spinner"></span>
+          <span class="btn-label">Delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/user-dashboard.js"></script>
+</body>
+</html>
