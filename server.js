@@ -24,6 +24,7 @@ const adminRoutes = require('./routes/adminRoutes');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+app.set('trust proxy', 1);
 // ---------- Security & core middleware ----------
 app.use(
   helmet({
